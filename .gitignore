@@ -34,3 +34,5 @@ vignettes/*.pdf
 
 #Big Tables
 \data_output\final_table.csv
+final_table.csv
+.Rproj.user
