@@ -87,10 +87,24 @@ require(ff)
 install.packages("vegan")
 
 
-medianTable <- aggregate(finalTable, by=list(finalTable$country),  FUN=median, na.rm = TRUE)
+median_Table <- aggregate(finalTable, by=list(finalTable$country),  FUN=median, na.rm = TRUE)
 #warnings()
 
-
-
-Normalized_median_table <- normalize(medianTable, method = "standardize", margin = 1L, on.constant = "quiet")
+normalized_median_table <- normalize(median_table, method = "range", range = c(-3,3),margin = 1L, on.constant = "quiet")
+normalized_median_table$year <- NULL
+cor(normalized_median_table)
+require(Rcmdr)
 #Normalized_median_table_deconstand <- decostand(medianTable, method = "standardize", MARGIN = 1L, range.global, na.rm=TRUE)
+require(tibble)
+as_tibble(median_table)
+as_tibble(normalized_median_table)
+
+rm(bigcor)
+
+#chart.Correlation(normalized_median_table[,3:1154], histogram=TRUE, pch=19)
+
+COR <- propagate::bigcor(normalized_median_table, size = 2000,fun ="cor")
+?ff
+matrixFF <- as.ffdf(normalized_median_table[,3:1155])
+fftempdir = "C:\\Users\\IBM_ADMIN\\Documents\\Emissions Analysis"
+
