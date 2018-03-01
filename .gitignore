@@ -5,7 +5,7 @@
 # Session Data files
 .RData
 
-/data_output/
+/data_output/*.csv
 
 
 # Output files from R CMD build
