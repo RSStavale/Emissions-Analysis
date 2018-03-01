@@ -2,8 +2,11 @@
 #install.packages("tidyverse")
 #install.packages("reshape")
 #install.packages("stringr")
-
+#install.packages("BBmisc")
+#install.packages("ff")
 require(stringr)
 require(RPostgreSQL)
 require(tidyverse)
 require(reshape)
+require(BBmisc)
+require(ff)

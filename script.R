@@ -16,7 +16,7 @@ dbListTables(con)
 #dim(emissions)
 #?boxplot
 #require(Rcmdr)
-require(tidyverse)
+
 #rm(result_table)
 #str(table)
 #head(table)
@@ -33,11 +33,9 @@ emissions_agriculture_manure_management <- my.Table.Transposing.Function(dbReadT
 emissions_agriculture_rice_cultivation <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_rice_cultivation"))
 emissions_agriculture_synthetic_fertilizers <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_synthetic_fertilizers"))
 
-
-
-require(tidyverse)
-require(reshape)
-library(dplyr)
+#require(tidyverse)
+#require(reshape)
+#library(dplyr)
 
 #final <- Reduce(function(x, y) merge(x, y, all=T,by("country","year"), 
  #      mylist, accumulate=F))
@@ -83,6 +81,7 @@ finalTable <-merge(x =  finalTable, y = emissions_agriculture_burning_crop_resid
 
 
 
+
 install.packages("ff")
 require(ff)
 install.packages("vegan")
@@ -91,8 +90,7 @@ install.packages("vegan")
 medianTable <- aggregate(finalTable, by=list(finalTable$country),  FUN=median, na.rm = TRUE)
 #warnings()
 
-install.packages("BBmisc")
-require(BBmisc)
+
 
 Normalized_median_table <- normalize(medianTable, method = "standardize", margin = 1L, on.constant = "quiet")
 #Normalized_median_table_deconstand <- decostand(medianTable, method = "standardize", MARGIN = 1L, range.global, na.rm=TRUE)
