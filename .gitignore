@@ -5,6 +5,8 @@
 # Session Data files
 .RData
 
+/data_output/
+
 
 # Output files from R CMD build
 /*.tar.gz
@@ -29,3 +31,4 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+.Rproj.user
