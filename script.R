@@ -98,13 +98,22 @@ require(Rcmdr)
 require(tibble)
 as_tibble(median_table)
 as_tibble(normalized_median_table)
-
-rm(bigcor)
-
+normalized_median_table_values <- normalized_median_table[,4:1155]
+#rm(normalized_median_table_values)
+library(dplyr)
+#normalized_median_table_values %>%
+#  mutate_all(as.double())
+#?propagate::bigcor
 #chart.Correlation(normalized_median_table[,3:1154], histogram=TRUE, pch=19)
+#normalized_median_table_values <- sapply( normalized_median_table_values, as.numeric )
 
-COR <- propagate::bigcor(normalized_median_table, size = 2000,fun ="cor")
-?ff
-matrixFF <- as.ffdf(normalized_median_table[,3:1155])
-fftempdir = "C:\\Users\\IBM_ADMIN\\Documents\\Emissions Analysis"
+#?ff
+#matrixFF <- as.ffdf(normalized_median_table[,4:1155])
+#matrixFF
+#COR <- propagate::bigcor(matrixFF, size = 2000,fun ="cor")
+#?cor
+cormatrix <- cor(use = "pairwise.complete.obs", x = normalized_median_table_values,method = "spearman")
 
+corframe <- as.data.frame(cormatrix)
+
+corframe
