@@ -1,5 +1,5 @@
 ﻿CREATE TABLE 
-Emissions_Agriculture_Synthetic_Fertilizers
+Macro_indicators
 (
 
   id serial,

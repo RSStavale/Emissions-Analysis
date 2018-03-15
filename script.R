@@ -17,6 +17,7 @@ emissions_agriculture_manure_left_on_pasture <- my.Table.Transposing.Function(db
 emissions_agriculture_manure_management <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_manure_management"))
 emissions_agriculture_rice_cultivation <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_rice_cultivation"))
 emissions_agriculture_synthetic_fertilizers <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_synthetic_fertilizers"))
+macro_statistics <- my.Table.Transposing.Function(dbReadTable(con,"macro_indicators"))
 
 library(tibble)
 
@@ -67,22 +68,20 @@ library(dplyr)
 scaled_median_table_values %>%
   mutate_all(as.double())
 
-normalized_median_table_values <- sapply( normalized_median_table_values, as.numeric )
+#normalized_median_table_values <- sapply( normalized_median_table_values, as.numeric )
 
 #cormatrix <- cor(use = "pairwise.complete.obs", x = normalized_median_table_values,method = "spearman")
 
 require(Rcmdr)
 #require(tibble)
 
-normalized_median_table_values <- as.tibble(normalized_median_table_values)
+#normalized_median_table_values <- as.tibble(normalized_median_table_values)
 median_table_values <- median_table[,4:1155]
 
 scale(median_table_values)
 scaled_median_table <- median_table_values
 
-normalized_median_table <- normalize(median_table, method = "range", range = c(-3,3),margin = 1L, on.constant = "quiet")
-
+#normalized_median_table <- normalize(median_table, method = "range", range = c(-3,3),margin = 1L, on.constant = "quiet")
 
 str(scaled_median_table)
 mvn(scaled_median_table, mvnTest = "royston", univariatePlot = "qqplot")
-
