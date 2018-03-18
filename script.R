@@ -70,7 +70,7 @@ scaled_median_table_values %>%
 
 #normalized_median_table_values <- sapply( normalized_median_table_values, as.numeric )
 
-#cormatrix <- cor(use = "pairwise.complete.obs", x = normalized_median_table_values,method = "spearman")
+cormatrix <- cor(use = "pairwise.complete.obs", x = scaled_median_table,method = "spearman")
 
 require(Rcmdr)
 #require(tibble)
@@ -79,9 +79,16 @@ require(Rcmdr)
 median_table_values <- median_table[,4:1155]
 
 scale(median_table_values)
+
 scaled_median_table <- median_table_values
-
+cormatrix_bigcor <- propagate::bigcor(scaled_median_table, fun = "cor",size = 1000)
 #normalized_median_table <- normalize(median_table, method = "range", range = c(-3,3),margin = 1L, on.constant = "quiet")
-
+require(tibble())
+cormatrix<- as.tibble(cormatrix)
+sort(abs(cormatrix$value.Total.Energy.Emissions..CO2...Energy.), decreasing = FALSE)
+namesfromcor <- names(cormatrix)
+namesfromcor <- as.list(namesfromcor)
 str(scaled_median_table)
 mvn(scaled_median_table, mvnTest = "royston", univariatePlot = "qqplot")
+
+require(dplyr)
