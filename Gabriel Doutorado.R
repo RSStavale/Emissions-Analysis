@@ -18,39 +18,42 @@ library(FactoMineR)
 
 ######################PCA####################################################
 
-res.pca.scaled <- PCA(scaled_median_table,  graph = FALSE)
-list.eigen.scaled <- get_eig(res.pca.scaled)
-fviz_screeplot(res.pca.scaled, addlabels = TRUE, ylim = c(0, 50))
+res.pca.scaled.filtered <- PCA(scaled_median_table_filtered_0_5_renamed_columns,  graph = FALSE)
+list.eigen.scaled.filtered <- get_eig(res.pca.scaled.filtered)
+list.eigen.scaled.filtered
 
-var <- get_pca_var(res.pca.scaled)
+fviz_screeplot(res.pca.scaled.filtered, addlabels = FALSE, ylim = c(0, 100))
+
+var <- get_pca_var(res.pca.scaled.filtered)
 contribu <- var$contrib
-
-fviz_pca_var(res.pca, axes=c(2,3),col.var = "black")
+contribu
+fviz_pca_var(res.pca.scaled.filtered, axes = c(1,2),col.var = "black")
+?fviz_pca_var()
 
 # Colorindo as Gari?veis de controle pela contribui??o individual
 
-fviz_pca_var(res.pca, axes=c(1, 2), col.var="contrib",
+fviz_pca_var(res.pca.scaled.filtered, axes = c(1,5), col.var="contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE)
+             repel = TRUE, select.var = list(contribu))
 
 # cargas de PC1
-fviz_contrib(res.pca.scaled, choice = "var", axes = 2, top = 500)
+fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 1, top = 500)
 # cargas de PC2
 fviz_contrib(res.pca, choice = "var", axes = 2, top = 10)
 
-ind <- get_pca_ind(res.pca)
+ind <- get_pca_ind(res.pca.scaled.filtered)
 ind
 ind$coord
 
 # Usar o gradiente nas contribui??es
-fviz_pca_ind(res.pca,axes = c(1, 3), col.ind = "cos2",
+fviz_pca_ind(res.pca.scaled.filtered,axes = c(1, 3), col.ind = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
 
 ##Indiv?duos e vari?veis
-fviz_pca_biplot(res.pca, axes = c(2, 3), repel = TRUE)
+fviz_pca_biplot(res.pca.scaled.filtered, axes = c(2, 3), repel = TRUE)
 
-fviz_pca_ind(res.pca, axes = c(1, 3),col.ind = "cos2",
+fviz_pca_ind(res.pca.scaled.filtered, axes = c(1, 3),col.ind = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE,
              habillage = decathlon$Competition, # color by groups
