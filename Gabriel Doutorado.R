@@ -18,7 +18,7 @@ library(FactoMineR)
 
 ######################PCA####################################################
 
-res.pca.scaled.filtered <- PCA(scaled_median_table_filtered_shortened_columns,  graph = FALSE)
+res.pca.scaled.filtered <- PCA(scaled_median_table_filtered_shortened_columns[,2:21],  graph = FALSE)
 list.eigen.scaled.filtered <- get_eig(res.pca.scaled.filtered)
 list.eigen.scaled.filtered
 
@@ -28,7 +28,6 @@ var <- get_pca_var(res.pca.scaled.filtered)
 contribu <- var$contrib
 contribu
 fviz_pca_var(res.pca.scaled.filtered, axes = c(1,2),col.var = "black")
-?fviz_pca_var()
 
 # Colorindo as Gari?veis de controle pela contribui??o individual
 
@@ -62,8 +61,8 @@ fviz_pca_ind(res.pca.scaled.filtered, axes = c(1, 3),col.ind = "cos2",
              palette = c("#00AFBB", "#E7B800", "#FC4E07"),
              addEllipses = TRUE # Concentration ellipses
              )
-
-
+install.packages("stringi")
+require(Rcmdr)
 ##########################Estima??o dos vetores dos PCs###################
 
 PC <- 
@@ -75,6 +74,7 @@ PC <-
   print(PC$sd^2)
   cat("\n")
   print(summary(PC))
+  
   decathlon <<- within(decathlon, {
     PC4 <- PC$scores[,4]
     PC3 <- PC$scores[,3]
