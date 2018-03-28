@@ -1,6 +1,6 @@
 library(PerformanceAnalytics)
 ?chart.Correlation
-chart.Correlation(scaled_median_table, histogram=TRUE, pch=19, method ="spearman")
+chart.Correlation(scaled_median_table_filtered_shortened_columns, histogram=TRUE, pch=19, method ="spearman")
 warnings()
 library(factoextra)
 library(FactoMineR)
@@ -18,7 +18,7 @@ library(FactoMineR)
 
 ######################PCA####################################################
 
-res.pca.scaled.filtered <- PCA(scaled_median_table_filtered_0_5_renamed_columns,  graph = FALSE)
+res.pca.scaled.filtered <- PCA(scaled_median_table_filtered_shortened_columns,  graph = FALSE)
 list.eigen.scaled.filtered <- get_eig(res.pca.scaled.filtered)
 list.eigen.scaled.filtered
 
@@ -32,14 +32,16 @@ fviz_pca_var(res.pca.scaled.filtered, axes = c(1,2),col.var = "black")
 
 # Colorindo as Gari?veis de controle pela contribui??o individual
 
-fviz_pca_var(res.pca.scaled.filtered, axes = c(1,5), col.var="contrib",
+fviz_pca_var(res.pca.scaled.filtered, axes = c(1,2), col.var="contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE, select.var = list(contribu))
 
 # cargas de PC1
-fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 1, top = 500)
+fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 1, top = 50)
 # cargas de PC2
-fviz_contrib(res.pca, choice = "var", axes = 2, top = 10)
+fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 2, top = 10)
+# cargas de PC3
+fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 3, top = 10)
 
 ind <- get_pca_ind(res.pca.scaled.filtered)
 ind

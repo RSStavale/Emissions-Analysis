@@ -59,10 +59,8 @@ finalTable <-merge(x =  finalTable, y = emissions_agriculture_burning_crop_resid
 
 median_Table <- aggregate(finalTable, by=list(finalTable$country),  FUN=median, na.rm = TRUE)
 #warnings()
-#normalized_median_table <- normalize(median_table_values, method = "range", range = c(-3,3),margin = 1L, on.constant = "quiet")
 #as_tibble(median_table)
 #as_tibble(normalized_median_table)
-#normalized_median_table_values <- normalized_median_table[,3:1154]
 #rm(normalized_median_table)
 library(dplyr)
 scaled_median_table_values %>%
@@ -75,21 +73,24 @@ cormatrix <- as.data.frame(cormatrix)
 require(Rcmdr)
 #require(tibble)
 
+newdata <- data.table::data.table(cormatrix)
+vect <- newdata[order(`value.Horses.Emissions (CO2eq) from N2O (Manure management)`)]
+head(vect$`value.Horses.Emissions (CO2eq) from N2O (Manure management)`)
 #normalized_median_table_values <- as.tibble(normalized_median_table_values)
 median_table_values <- median_table[,4:1155]
 
-scaled_median_table_values <- scale(median_table_values)
+scaled_median_table_values <- data.table::data.table(scaled_median_table_values)
 scaled_median_table_values <- as.tibble(scaled_median_table_values)
-
-
-list.of.columns.to.keep <- c(cormatrix_result_from_0_5_value$X1)
+names(cormatrix_result_from_0_5_value)
+list.of.columns.to.keep <- c(cormatrix_result_from_0_5_value_filtered$X1)
 list.of.columns.to.keep
-inner <- names(scaled_median_table_values) %in% c("value.Horses.Emissions..CH4...Manure.management")
 
-summary(inner)
-scaled_median_table_filtered <- subset(scaled_median_table_values, select = list.of.columns.to.keep)
-scaled_median_table_filtered <- scaled_median_table_values[,names(scaled_median_table_values) %in% list.of.columns.to.keep]
+#inner <- names(scaled_median_table_values) %in% c("value.Horses.Emissions..CH4...Manure.management")
 
+scaled_median_table_filteredv2 <- subset(scaled_median_table_filtered_0_5, select = list.of.columns.to.keep)
+scaled_median_table_filteredv2 <- scaled_median_table_values[,names(scaled_median_table_values) %in% list.of.columns.to.keep]
+require(tibble)
+scaled_median_table_values <- as.tibble(scaled_median_table_values)
 names(scaled_median_table_values)
 
 #cormatrix_bigcor <- propagate::bigcor(scaled_median_table, fun = "cor",size = 1000)
@@ -102,10 +103,10 @@ cormatrix<- as.tibble(cormatrix)
 #str(scaled_median_table)
 #mvn(scaled_median_table, mvnTest = "royston", univariatePlot = "qqplot")
 
-scaled_median_table_filtered_0_5_renamed_columns <- scaled_median_table_filtered_0_5
+scaled_median_table_filtered_shortened_columns  <- scaled_median_table_filteredv2
 
-names(scaled_median_table_filtered_0_5_renamed_columns) = gsub(pattern = "value\\.", replacement = "", x = names(scaled_median_table_filtered_0_5_renamed_columns))
-
-
+names(scaled_median_table_filtered_shortened_columns) = gsub(pattern = "agricultureEmissions", replacement = "agriculture.Emissions", x = names(scaled_median_table_filtered_shortened_columns))
+scaled_median_table_filtered_shortened_columns$
+cormatrix_result_from_0_5_value_filtered <- cormatrix_result_from_0_5_value
 
 #names(scaled_median_table_filtered_0_5_renamed_columns)[names(scaled_median_table_filtered_0_5_renamed_columns) == 'Transport.fuel.used.in.agriculture.excl.fishery.Consumption.in.Agriculture'] <- 'Transport.fuel.used.in.agriculture.excl.fishery.Consumption'
