@@ -20,6 +20,8 @@ emissions_agriculture_synthetic_fertilizers <- my.Table.Transposing.Function(dbR
 
 library(tibble)
 
+
+
 finalTable <-  
   Reduce(function(dtf1, dtf2) merge(dtf1, dtf2, by=c("country","year"), all= TRUE),
          list(
@@ -38,6 +40,8 @@ finalTable <-
    )
 
 #turns into tibble
+require(tibble)
+
 as_tibble(finalTable)
 #selects columns to drop
 toDrop <- finalTable %>% 
@@ -100,3 +104,15 @@ cormatrix<- as.tibble(cormatrix)
 names(scaled_median_table_filtered_shortened_columns) = gsub(pattern = "agricultureEmissions", replacement = "agriculture.Emissions", x = names(scaled_median_table_filtered_shortened_columns))
 names(scaled_median_table_filtered_0_5_renamed_columns)[names(scaled_median_table_filtered_0_5_renamed_columns) == 'Transport.fuel.used.in.agriculture.excl.fishery.Consumption.in.Agriculture'] <- 'Transport.fuel.used.in.agriculture.excl.fishery.Consumption'
 #------------------------------------------------------------------------------------------------------------
+
+
+colnames(macro_statistics_median)[1] <- "CountryNames"
+macro_statistics_median$country <- NULL
+
+#require(dplyr)
+final_map_table_macro_and_PCA = left_join(scaled_median_table_filtered_shortened_columns, macro_statistics_median , by = "CountryNames")
+names(final_map_table_macro_and_PCA)[names(final_map_table_macro_and_PCA) == 'value.Gross.Domestic.Product.Value.US...2010.prices'] <- 'GDP_Dollars_2010'
+
+
+
+
