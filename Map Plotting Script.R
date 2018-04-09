@@ -10,29 +10,37 @@ maptest <- joinCountryData2Map(
                   joinCode = "NAME",
                   nameJoinColumn = "CountryNames",
                   verbose = TRUE)
-
 PC1Map <- mapCountryData( maptest, nameColumnToPlot="PC1", 
-                          colourPalette = "heat",catMethod = "pretty",
+                          colourPalette = "diverging",catMethod = "pretty",
+#one of "heat", "diverging", "white2Black", "black2White", 
+#"topo", "rainbow", "terrain", "negpos8", "negpos9"
+                          numCats = 500,
                           mapTitle = "Energia/Transporte")
 PC2Map <- mapCountryData( maptest, nameColumnToPlot="PC2" , 
-                          colourPalette = "heat",catMethod = "pretty",
+                          colourPalette = "diverging",catMethod = "pretty",
+                          numCats = 500,
+                          add = FALSE,
                           mapTitle = "Energia/Irrigação")
-PC3Map <- mapCountryData( maptest, nameColumnToPlot="PC3" ,  
+PC3Map <- mapCountryData( maptest, nameColumnToPlot="PC3" ,
                           catMethod  ="pretty",
-                          colourPalette = "heat",
-                          mapTitle = "Energia x Eficiência")
-                          
-getMap()
-PC1Map
+                          colourPalette = "diverging",
+                          numCats = 500,
+                          mapTitle = "Energia/Eficiência")
+#final_map_table_macro_and_PCA$CountryNames[final_map_table_macro_and_PCA$CountryNames=="China, mainland"] <- "China"
+
 GDPMap <- mapBubbles(maptest,nameColumnToPlot = "GDP_Dollars_2010", 
-                     nameZSize = "GDP_Dollars_2010", mapRegion = "eurasia", 
-                     landCol = "wheat",
-                     oceanCol = "lightblue")
+                     nameZSize = "GDP_Dollars_2010",
+                     nameZColour = "GDP_Dollars_2010",
+                    colourPalette = "heat",
+                    numCats = 5,
+                     add = TRUE,
+                     symbolSize = 0.5,
+                     #nameZColour = "GDP_Dollars_2010",
+                     catMethod = "pretty"
+                     ,legendPos = "topright",addColourLegend = FALSE)
 maptest$GDP_Dollars_2010
-#names(final_map_table_macro_and_PCA)[names(final_map_table_macro_and_PCA) == 'value.Gross Domestic Product.Value US$, 2010 prices'] <- 'GDP_Dollars_2010'
+#require(Rcmdr)
 #?mapBubbles
 par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
 as.integer(final_map_table_macro_and_PCA$GDP_Dollars_2010)
 mapBubbles(df = PC1Map, nameZSize="POP_EST", catMethod = "pretty")
-
-             

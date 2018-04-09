@@ -36,11 +36,15 @@ fviz_pca_var(res.pca.scaled.filtered, axes = c(2,3), col.var="contrib",
              repel = TRUE, select.var = list(contribu))
 
 # cargas de PC1
-fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 1, top = 20, xtickslab.rt = 65)
+fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 1, top = 11, xtickslab.rt = 65)
 # cargas de PC2
-fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 2, top = 20, xtickslab.rt = 65)
+fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 2, top = 11, xtickslab.rt = 65)
 # cargas de PC3
-fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 3, top = 20, xtickslab.rt = 65)
+fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 3, top = 9, xtickslab.rt = 65)
+
+fviz_contrib(res.pca.scaled.filtered, choice="var", axes = 1,fill = "lightgray", color = "black",,top = 11) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=65))
 
 ind <- get_pca_ind(res.pca.scaled.filtered)
 ind
@@ -54,32 +58,28 @@ fviz_pca_ind(res.pca.scaled.filtered,axes = c(1, 3), col.ind = "cos2",
 ##Indiv?duos e vari?veis
 fviz_pca_biplot(res.pca.scaled.filtered, axes = c(2, 3), repel = TRUE)
 
-fviz_pca_ind(res.pca.scaled.filtered, axes = c(1, 3),col.ind = "cos2",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE,
-             habillage = decathlon$Competition, # color by groups
-             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
-             addEllipses = TRUE # Concentration ellipses
-             )
+#fviz_pca_ind(res.pca.scaled.filtered, axes = c(1, 3),col.ind = "cos2",
+#             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+#             repel = TRUE,
+#             habillage = decathlon$Competition, # color by groups
+#             palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+#             addEllipses = TRUE # Concentration ellipses
+#             )
 install.packages("stringi")
 
 ##########################Estima??o dos vetores dos PCs###################
-
+require(Rcmdr)
 PC <- 
-  princomp(~Discus+High.jump+Javeline+Long.jump+Points+Pole.vault+Rank+Shot.put+X100m+X110m.hurdle+X400m+X1500m,
-   cor=TRUE, data=decathlon)
-  cat("\nComponent loadings:\n")
-  print(unclass(loadings(PC)))
-  cat("\nComponent variances:\n")
-  print(PC$sd^2)
-  cat("\n")
-  print(summary(PC))
-  decathlon <<- within(decathlon, {
-    PC4 <- PC$scores[,4]
-    PC3 <- PC$scores[,3]
-    PC2 <- PC$scores[,2]
-    PC1 <- PC$scores[,1]
+  princomp(~Barley.Emissions..CO2eq+Cattle.Emissions..CO2eq+Chickens..broilers.Direct.emissions..CO2eq+Chickens..layers.Emissions..CO2eq+Electricity.Consumption+Electricity.Emissions..CO2eq+Energy.for.power.irrigation.Consumption+Energy.for.power.irrigation.Emissions..CO2eq+Gas.Diesel.oil.Consumption+Horses.Emissions..CO2eq+Motor.Gasoline.Consumption+Motor.Gasoline.Emissions..CO2eq+Oats.Emissions..CO2eq+Potatoes.Emissions..CO2eq+Sheep.Emissions..CO2eq+Swine..market.Indirect.emissions..CO2eq+Transport.fuel.used.in.agriculture.Consumption+Transport.fuel.used.in.agriculture.Emissions..CO2eq+Turkeys.Emissions..CO2eq+Wheat.Emissions..CO2eq,
+           cor=FALSE, data=final_map_table_macro_and_PCA)
+cat("\nComponent loadings:\n")
+print(unclass(loadings(.PC)))
+cat("\nComponent variances:\n")
+print(.PC$sd^2)
+cat("\n")
+print(summary(.PC))
+final_map_table_macro_and_PCA <<- within(final_map_table_macro_and_PCA, {
+  PC3 <- .PC$scores[,3]
+  PC2 <- .PC$scores[,2]
+  PC1 <- .PC$scores[,1]
 })
-  
-  
-  

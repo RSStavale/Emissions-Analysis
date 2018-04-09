@@ -17,6 +17,7 @@ emissions_agriculture_manure_left_on_pasture <- my.Table.Transposing.Function(db
 emissions_agriculture_manure_management <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_manure_management"))
 emissions_agriculture_rice_cultivation <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_rice_cultivation"))
 emissions_agriculture_synthetic_fertilizers <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_synthetic_fertilizers"))
+macro_statistics <- My
 
 library(tibble)
 
@@ -107,12 +108,15 @@ names(scaled_median_table_filtered_0_5_renamed_columns)[names(scaled_median_tabl
 
 
 colnames(macro_statistics_median)[1] <- "CountryNames"
-macro_statistics_median$country <- NULL
+macro_statistics_median$
 
 #require(dplyr)
-final_map_table_macro_and_PCA = left_join(scaled_median_table_filtered_shortened_columns, macro_statistics_median , by = "CountryNames")
-names(final_map_table_macro_and_PCA)[names(final_map_table_macro_and_PCA) == 'value.Gross.Domestic.Product.Value.US...2010.prices'] <- 'GDP_Dollars_2010'
+  final_map_table_macro_and_PCA_test <- final_map_table_macro_and_PCA
+names(final_map_table_macro_and_PCA) = gsub(pattern = "\\.\\.", replacement = "\\.", x = names(final_map_table_macro_and_PCA))
+names(final_map_table_macro_and_PCA)[names(final_map_table_macro_and_PCA) == 'Transport.fuel.used.in.agriculture.excl.fishery.Consumption.in.Agriculture']  
 
+final_map_table_macro_and_PCA = left_join(scaled_median_table_filtered_shortened_columns, macro_statistics_median , by = "CountryNames")
+names(final_map_table_macro_and_PCA)[names(final_map_table_macro_and_PCA) == 'Chickens..layers.Emissions..CO2eq'] <- 'Chickens.Layers.Emissions.CO2eq'
 
 
 

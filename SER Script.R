@@ -49,10 +49,10 @@ finalTable <-merge(x =  finalTable, y = emissions_agriculture_burning_crop_resid
 my.remove.duplicates.function()
 #------------------------------------------------------------------------------------------------------------
 #Função que executa agregação por mediana, renomeia a primeira coluna agrupada e remove as duas seguidas.
-median_Table <- aggregate(finalTable, by=list(finalTable$country),  FUN=median, na.rm = TRUE)
-colnames(median_Table)[1] <- "CountryNames"
-colnames(median_Table)[2] <- NULL
-colnames(median_Table)[3] <- NULL
+median_table <- aggregate(finalTable, by=list(finalTable$country),  FUN=median, na.rm = TRUE)
+colnames(median_table)[1] <- "CountryNames"
+median_table$country <- NULL
+median_table$year <- NULL
 
 #
 #final_map_table_macro_and_PCA = left_join(scaled_median_table_filtered_shortened_columns, macro_statistics_median , by = "CountryNames")
@@ -63,33 +63,34 @@ colnames(median_Table)[3] <- NULL
 require(rworldmap)
 
 mappingCountries <- joinCountryData2Map(
-  median_Table,
+  median_table,
   joinCode = "NAME",
   nameJoinColumn = "CountryNames",
   verbose = TRUE)
-summary(median_Table$`value.All Animals.Emissions (CO2eq) (Enteric)`)
+summary(median_table$`value.All Animals.Emissions (CO2eq) (Manure on pasture)`)
 Map1 <- mapCountryData( mappingCountries, nameColumnToPlot="value.All Animals.Emissions (CO2eq) (Enteric)", 
-                          colourPalette = "heat", catMethod = "FixedWidth")
-)
-PC2Map <- mapCountryData( maptest, nameColumnToPlot="PC2" , 
-                          colourPalette = "heat",catMethod = "pretty",
-                          mapTitle = "Energia/Irrigação")
-PC3Map <- mapCountryData( maptest, nameColumnToPlot="PC3" ,  
-                          catMethod  ="pretty",
-                          colourPalette = "heat",
-                          mapTitle = "Energia x Eficiência")
+                            colourPalette = "heat", catMethod = "pretty",numCats = 20
+                        ,mapTitle = "")
+# "heat", "diverging", "white2Black", "black2White", "topo", "rainbow", "terrain", "negpos8", "negpos9"
 
-getMap()
-PC1Map
+names(SER_final_table) <- make.names(names(SER_final_table))
+cor(SER_final_table[,c("All.Animals.Emissions.CO2eq",
+                       "GDP.Dollars.2010")], method="spearman",
+    use="complete")
+
+
+SER_final_table$All.Animals.Emissions.CO2eq
+
 GDPMap <- mapBubbles(maptest,nameColumnToPlot = "GDP_Dollars_2010", 
-                     nameZSize = "GDP_Dollars_2010", mapRegion = "eurasia", 
-                     landCol = "wheat",
-                     oceanCol = "lightblue")
-maptest$GDP_Dollars_2010
-#names(final_map_table_macro_and_PCA)[names(final_map_table_macro_and_PCA) == 'value.Gross Domestic Product.Value US$, 2010 prices'] <- 'GDP_Dollars_2010'
-#?mapBubbles
-par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
-as.integer(final_map_table_macro_and_PCA$GDP_Dollars_2010)
-mapBubbles(df = PC1Map, nameZSize="POP_EST", catMethod = "pretty")
+                     nameZSize = "GDP_Dollars_2010", mapRegion = "world",
+                     add = TRUE,
+                     symbolSize = 0.5,colourPalette = "rainbow",
+                     #nameZColour = "GDP_Dollars_2010",
+                     catMethod = "pretty",legendPos = "topright")
+require(dplyr)
+SER_final_table = left_join(median_table, macro_statistics_median , by = "CountryNames")
+names(SER_final_table)[names(SER_final_table) == 'value.Gross.Domestic.Product.Value.US...2010.prices'] <- 'GDP.Dollars.2010'
+SER_final_table$`value.Gross Domestic Product.Value US$, 2010 prices`
 
 
+shapiro.test(SER_final_table$All.Animals.Emissions.CO2eq)
