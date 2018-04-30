@@ -28,6 +28,10 @@ PC3Map <- mapCountryData( maptest, nameColumnToPlot="PC3" ,
                           mapTitle = "Energia/Eficiência")
 #final_map_table_macro_and_PCA$CountryNames[final_map_table_macro_and_PCA$CountryNames=="China, mainland"] <- "China"
 
+                                              #BUBBLE MAP
+#------------------------------------------------------------------------------------------------------
+#Script para adicionar mapa de bolhas a um mapa existente, note que o parâmetro necessário é o add = TRUE.
+
 GDPMap <- mapBubbles(maptest,nameColumnToPlot = "GDP_Dollars_2010", 
                      nameZSize = "GDP_Dollars_2010",
                      nameZColour = "GDP_Dollars_2010",
@@ -38,7 +42,7 @@ GDPMap <- mapBubbles(maptest,nameColumnToPlot = "GDP_Dollars_2010",
                      #nameZColour = "GDP_Dollars_2010",
                      catMethod = "pretty"
                      ,legendPos = "topright",addColourLegend = FALSE)
-maptest$GDP_Dollars_2010
+#------------------------------------------------------------------------------------------------------
 #require(Rcmdr)
 #?mapBubbles
 par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")

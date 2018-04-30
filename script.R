@@ -17,7 +17,7 @@ emissions_agriculture_manure_left_on_pasture <- my.Table.Transposing.Function(db
 emissions_agriculture_manure_management <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_manure_management"))
 emissions_agriculture_rice_cultivation <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_rice_cultivation"))
 emissions_agriculture_synthetic_fertilizers <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_synthetic_fertilizers"))
-macro_statistics <- My
+#macro_statistics <- My
 
 library(tibble)
 

@@ -42,9 +42,9 @@ fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 2, top = 11, xticks
 # cargas de PC3
 fviz_contrib(res.pca.scaled.filtered, choice = "var", axes = 3, top = 9, xtickslab.rt = 65)
 
-fviz_contrib(res.pca.scaled.filtered, choice="var", axes = 1,fill = "lightgray", color = "black",,top = 11) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle=65))
+#fviz_contrib(res.pca.scaled.filtered, choice="var", axes = 1,fill = "lightgray", color = "black",,top = 11) +
+ # theme_minimal() +
+  #theme(axis.text.x = element_text(angle=65))
 
 ind <- get_pca_ind(res.pca.scaled.filtered)
 ind
