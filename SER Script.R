@@ -1,6 +1,8 @@
+
+
 library(RPostgreSQL)
-con <- dbConnect('PostgreSQL',user = 'postgres',
-                 password = 'postgres', 
+con <- dbConnect('PostgreSQL',user = db_user,
+                 password = db_password, 
                  host = 'localhost',port = 5432,
                  dbname = 'Emissions Database')
 dbListTables(con)
@@ -61,32 +63,43 @@ median_table$year <- NULL
 #------------------------------------------------------------------------------------------------------------
 
 require(rworldmap)
-
+#Mapeando Países a partir do nome
 mappingCountries <- joinCountryData2Map(
   median_table,
   joinCode = "NAME",
   nameJoinColumn = "CountryNames",
   verbose = TRUE)
+
 summary(median_table$`value.All Animals.Emissions (CO2eq) (Manure on pasture)`)
-Map1 <- mapCountryData( mappingCountries, nameColumnToPlot="value.All Animals.Emissions (CO2eq) (Enteric)", 
-                            colourPalette = "heat", catMethod = "pretty",numCats = 20
-                        ,mapTitle = "")
-# "heat", "diverging", "white2Black", "black2White", "topo", "rainbow", "terrain", "negpos8", "negpos9"
+#Usando o mapeamento para construir um mapa com os dados da base
+Map1 <- mapCountryData(
+  mappingCountries, 
+  nameColumnToPlot="value.All Animals.Emissions (CO2eq) (Enteric)",
+  colourPalette = "heat",
+  catMethod = "pretty",
+  numCats = 20,
+  mapTitle = "")
+  # "heat", "diverging", "white2Black", 
+  #"black2White", "topo", "rainbow", 
+  #"terrain", "negpos8", "negpos9"
 
-names(SER_final_table) <- make.names(names(SER_final_table))
-cor(SER_final_table[,c("All.Animals.Emissions.CO2eq",
-                       "GDP.Dollars.2010")], method="spearman",
-    use="complete")
-
-
-SER_final_table$All.Animals.Emissions.CO2eq
-
+#Adicionando bolhas de PIB no mapa existente
 GDPMap <- mapBubbles(maptest,nameColumnToPlot = "GDP_Dollars_2010", 
-                     nameZSize = "GDP_Dollars_2010", mapRegion = "world",
-                     add = TRUE,
-                     symbolSize = 0.5,colourPalette = "rainbow",
-                     #nameZColour = "GDP_Dollars_2010",
-                     catMethod = "pretty",legendPos = "topright")
+  nameZSize = "GDP_Dollars_2010", mapRegion = "world",
+  add = TRUE,
+  symbolSize = 0.5,colourPalette = "rainbow",
+  #nameZColour = "GDP_Dollars_2010",
+  catMethod = "pretty",legendPos = "topright")
+
+#Renomeando colunas para um formato mais adequado
+names(SER_final_table) <- make.names(names(SER_final_table))
+#Testando uma correlação com GDP
+cor(SER_final_table[,c("All.Animals.Emissions.CO2eq",
+  "GDP.Dollars.2010")], 
+  method="spearman",
+  use="complete")
+  
+  
 require(dplyr)
 SER_final_table = left_join(median_table, macro_statistics_median , by = "CountryNames")
 names(SER_final_table)[names(SER_final_table) == 'value.Gross.Domestic.Product.Value.US...2010.prices'] <- 'GDP.Dollars.2010'

@@ -60,7 +60,6 @@ names(finalTable) <- namesofcolumns
 #Merge de tabela individualmente
 finalTable <-merge(x =  finalTable, y = emissions_agriculture_burning_crop_residues, by=c("country","year"), all= TRUE)
 #------------------------------------------------------------------------------------------------------------
-
 median_Table <- aggregate(finalTable, by=list(finalTable$country),  FUN=median, na.rm = TRUE)
 #warnings()
 #as_tibble(median_table)
@@ -74,7 +73,8 @@ scaled_median_table_values %>%
 #------------------------------------------------------------------------------------------------------------
 cormatrix <- cor(use = "pairwise.complete.obs", x = scaled_median_table_values,method = "spearman")
 cormatrix <- as.data.frame(cormatrix)
-require(Rcmdr)
+cormatrix
+
 #require(tibble)
 
 median_table_values <- median_table[,4:1155]
