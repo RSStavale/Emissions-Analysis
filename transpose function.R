@@ -1,5 +1,9 @@
 #This function fixes the columns Country and Year while grouping columns Item and Element and then transposes the Value
 #over the groups
+
+#Essa função fixa as colunas de País e Ano
+#agrupa as colunas Item e Elemento
+#e por fim transpõe o Valor nos grupos
 my.Table.Transposing.Function <- function(table.name){
   
   idvars  <- c("country","year");
@@ -13,5 +17,4 @@ my.Table.Transposing.Function <- function(table.name){
     timevar="time",
     direction="wide");
   return(table.name)
-  
 }
