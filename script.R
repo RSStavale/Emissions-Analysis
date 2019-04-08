@@ -5,6 +5,13 @@ con <- dbConnect('PostgreSQL',user = 'postgres',
                  host = 'localhost',port = 5432,
                  dbname = 'Emissions Database')
 dbListTables(con)
+#Função que torna nomes de colunas compatíveis com bancos de dados
+dbSafeNames = function(names) {
+  names = gsub('[^a-z0-9]+','_',tolower(names))
+  names = make.names(names, unique=TRUE, allow_=TRUE)
+  names = gsub('.','_',names, fixed=TRUE)
+  names
+}
 
 emissions_agriculture_cultivated_organic_soils <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_cultivated_organic_soils"))
 emissions_agriculture_burning_crop_residues <- my.Table.Transposing.Function(dbReadTable(con,"emissions_agriculture_burning_crop_residues"))
